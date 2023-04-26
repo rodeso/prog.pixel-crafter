@@ -30,7 +30,7 @@ namespace prog {
         return blue_;
     }
 
-    // returna referencias mutáveis
+    // retorna referencias mutáveis
     
 
     rgb_value& Color::red()  {
