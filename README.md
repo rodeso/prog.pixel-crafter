@@ -1,25 +1,7 @@
 Project assignment
 Programação (L.EIC009), April 2023
 
-Introduction
-Example script
-Constraints & logistics
-Deadline and delivery
-Group work
-Plagiarism
-Provided files
-Getting started
-Project files
-The runscript program
-The test program
-Project development
-Implementation of Color
-Implementation of Image
-Implementation of Script
-Advanced functionality
-Median filter
-XPM2 file loading and saving
-Evaluation criteria
+Trabalho realizado pelo Grupo 15.05
 
 
 Introduction
