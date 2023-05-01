@@ -24,6 +24,9 @@ namespace prog
     void open();
     void blank();
     void save();
+    void v_mirror();
+    void h_mirror();
+    void add();
   };
 }
 #endif
