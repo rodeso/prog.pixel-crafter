@@ -73,4 +73,24 @@ namespace prog {
         input >> filename;
         saveToPNG(filename, image);
     }
+    void Script::v_mirror() { //espelhar a imagem verticalmente
+        Image image = *this->image;
+        int w = image.width();
+        int h = image.height();
+        for (int y = 0; y < h / 2; y++) { //percorre a metade vertical da imagem, sendo isto suficiente para espelhar toda a imagem
+            for (int x = 0; x < w; x++) {
+                swap(image.at(x, y), image.at(x, h - 1 - y)); //troca os pixeis em (x,y) com (x,h-1-y), invertendo todos os pixeis ao percorrer metade
+            }
+        }
+    }
+    void Script::h_mirror() { //espelhar a imagem horizontalmente
+        Image image = *this->image;
+        int w = image.width();
+        int h = image.height();
+        for (int x = 0; x < w / 2; x++) { //percorre a metade horizontal da imagem, sendo isto suficiente para espelhar toda a imagem
+            for (int y = 0; y < h; y++) {
+                swap(image.at(x, y), image.at(w - 1 - x, y)); //troca os pixeis em (x,y) com (w-1-x,y) invertendo todos os pixeis ao percorrer metade
+            }
+        }
+    }
 }
