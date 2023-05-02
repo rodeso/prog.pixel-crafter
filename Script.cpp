@@ -49,6 +49,59 @@ namespace prog {
                 continue;
             } 
             // TODO ...
+            if(command=="invert"){
+                invert();
+                continue;
+            }
+            if(command=="to_gray_scale"){
+                to_gray_scale();
+                continue;
+            }
+            if(command=="replace"){
+                Color c1,c2;
+                input>>c1;
+                input>>c2;
+                replace(c1,c2);
+                continue;
+            }
+            if(command=="fill"){
+                int x,y,w,h;
+                input >> x>>y>>w>>h;
+                Color c3;
+                input >>c3;
+                fill(x,y,w,h,c3);
+                continue;
+            }
+            if(command=="h_mirror"){
+                h_mirror();
+                continue;
+            }
+            if(command=="v_mirror"){
+                v_mirror();
+                continue;
+            }
+            if(command=="add"){
+                string filename;
+                Color c4;
+                int x,y;
+                input >> filename >> c4 >> x>>y;
+                add(filename , c4, x,y);
+                continue;
+            }
+            if(command=="crop"){
+                int x,y,w,h;
+                input >> x >>y >>w>>h;
+                crop(x,y,w,h);
+                continue;
+            }
+            if(command=="rotate_left"){
+                rotate_left();
+                continue;
+            }
+            if(command=="roate_right"){
+                rotate_rigth();
+                continue;
+            }
 
         }
     }
