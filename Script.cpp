@@ -146,4 +146,37 @@ namespace prog {
             }
         }
     }
+    void Script::rotate_rigth(){
+        // 90 graus para a direita
+        vector<vector<Color>> temp; //vetor para reorganizar a imagem
+        int w=image->height();
+        int h=image->width();
+        for(int i=w-1; i>=0;i--){//escolhe uma linha a começar do fim
+            vector<Color> new_colum;
+            for(int j=0;j<h;j++){
+                new_colum.push_back(image->at(j,i));//preenche coluna
+            }
+            temp.push_back(new_colum);//junta coluna à nova imagem
+        }
+        Image v(w,h,temp);
+        *image= v;
+        
+
+    }
+    void Script::rotate_left(){
+        int w=image->height();
+        int h=image->width();
+        vector<vector<Color>> temp;
+        
+       for(int i=0 ; i<image->height();i++){//fixa uma linha
+            vector<Color> new_line;
+            for(int j=image->width()-1 ;j>=0;j--){//anda de coluna em coluna
+                new_line.push_back(image->at(j,i));
+            }
+            temp.push_back(new_line);
+            
+        }
+        Image v(w,h,temp);
+        *image=v;
+    }
 }
