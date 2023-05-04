@@ -19,6 +19,17 @@ namespace prog
     
     
   }
+  Image::Image(const Image& i){
+    w_=i.w_;
+    h_=i.h_;
+    pixeis_=i.pixeis_;
+
+  }
+  Image::Image(int w, int h,const std::vector<std::vector<Color>>& pixeis){
+    w_=w;
+    h_=h;
+    pixeis_=pixeis;
+  }
   Image::~Image()
   {
     
