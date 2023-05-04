@@ -179,4 +179,23 @@ namespace prog {
         Image v(w,h,temp);
         *image=v;
     }
+    void Script:: crop(int x,int y,int w,int h){
+        Image v(w,h);
+        vector<vector<Color>> temp;
+        for(int i=x;i<w+x;i++){
+            vector<Color> new_colum;
+            for(int j=y;j<h+y;j++){
+                new_colum.push_back(image->at(i,j));
+            }
+            temp.push_back(new_colum);
+        }
+        for(int x=0;x<w;x++){
+            for(int y=0;y<h;y++){
+                v.at(x,y)=temp[x][y];
+            }
+        }
+        *image=v;
+        
+        
+    }
 }
