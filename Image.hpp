@@ -11,6 +11,8 @@ namespace prog
     std::vector<std::vector<Color>> pixeis_;
   public:
     Image(int w, int h, const Color &fill = {255, 255, 255});
+    Image(const Image& i);
+    Image(int w,int h, const std::vector<std::vector<Color>>& pixeis);
     ~Image();
     int width() const;
     int height() const;
