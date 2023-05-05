@@ -179,7 +179,7 @@ namespace prog {
         Image v(w,h,temp);
         *image=v;
     }
-    void Script:: crop(int x,int y,int w,int h){
+    void Script::crop(int x,int y,int w,int h){
         Image v(w,h);
         vector<vector<Color>> temp;
         for(int i=x;i<w+x;i++){
