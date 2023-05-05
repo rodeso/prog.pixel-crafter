@@ -146,10 +146,11 @@ namespace prog {
             }
         }
     }
-    void Script::copy(const std::string &filename, const Color &neutral, int x, int y) {
+    void Script::add(const std::string &filename, rgb_value r, rgb_value g, rgb_value b, int x, int y) {
         Image png(filename); //carrega a imagem
         int pngW = png.width(); //largura da imagem
         int pngH = png.height(); //altura da imagem
+        Color neutral(r, g, b); //cria a cor neutra
         
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
