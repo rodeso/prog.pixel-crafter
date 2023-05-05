@@ -146,6 +146,25 @@ namespace prog {
             }
         }
     }
+    void Script::copy(const std::string &filename, const Color &neutral, int x, int y) {
+        Image png(filename); //carrega a imagem
+        int pngW = png.width(); //largura da imagem
+        int pngH = png.height(); //altura da imagem
+        
+        for (int i = 0; i < pngW; i++) {
+            for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
+                Color pngC = source.at(i, j); //guarda a cor em pngC            
+                if (pngC != neutral) { //copia apenas os diferentes ao neutro
+                    int currentX = x + i; //x atual
+                    int currentY = y + j; //y atual
+
+                    if (currentX >= 0 && currentX < image->width() && currentY >= 0 && currentY < image->height()) { //pixel atual = pixel copiado
+                        image->at(currentX, currentY) = pngC;
+                    }
+                }
+            }
+        }
+    }   
     void Script::rotate_rigth(){
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
