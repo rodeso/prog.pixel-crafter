@@ -135,6 +135,7 @@ namespace prog {
                 swap(image.at(x, y), image.at(x, h - 1 - y)); //troca os pixeis em (x,y) com (x,h-1-y), invertendo todos os pixeis ao percorrer metade
             }
         }
+        *this->image=image;//atualiza imagem
     }
     void Script::h_mirror() { //espelhar a imagem horizontalmente
         Image image = *this->image;
@@ -145,6 +146,7 @@ namespace prog {
                 swap(image.at(x, y), image.at(w - 1 - x, y)); //troca os pixeis em (x,y) com (w-1-x,y) invertendo todos os pixeis ao percorrer metade
             }
         }
+        *this->image=image;//atualiza imagem
     }
     void Script::add(const std::string &filename, rgb_value r, rgb_value g, rgb_value b, int x, int y) {
         Image png(filename); //carrega a imagem
