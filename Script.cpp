@@ -82,10 +82,10 @@ namespace prog {
             }
             if(command=="add"){
                 string filename;
-                Color c4;
+                rgb_value r, g, b = 120;
                 int x,y;
-                input >> filename >> c4 >> x>>y;
-                add(filename , c4, x,y);
+                input >> filename >> r >> g >> b >> x >>y;
+                add(filename , r, g, b, x, y);
                 continue;
             }
             if(command=="crop"){
@@ -149,15 +149,15 @@ namespace prog {
         *this->image=image;//atualiza imagem
     }
     void Script::add(const std::string &filename, rgb_value r, rgb_value g, rgb_value b, int x, int y) {
-        Image png(filename); //carrega a imagem
-        int pngW = png.width(); //largura da imagem
-        int pngH = png.height(); //altura da imagem
+        Image *png = loadFromPNG(filename); //carrega a imagem
+        int pngW = png->width(); //largura da imagem
+        int pngH = png->height(); //altura da imagem
         Color neutral(r, g, b); //cria a cor neutra
         
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
-                Color pngC = png.at(i, j); //guarda a cor em pngC            
-                if (pngC != neutral) { //copia apenas os diferentes ao neutro
+                Color pngC = png->at(i, j); //guarda a cor em pngC            
+                if (pngC.red() != r || pngC.green() != g || pngC.blue() != b) { //copia apenas os diferentes ao neutro
                     int currentX = x + i; //x atual
                     int currentY = y + j; //y atual
 
