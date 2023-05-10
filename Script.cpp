@@ -156,7 +156,7 @@ namespace prog {
         
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
-                Color pngC = source.at(i, j); //guarda a cor em pngC            
+                Color pngC = png.at(i, j); //guarda a cor em pngC            
                 if (pngC != neutral) { //copia apenas os diferentes ao neutro
                     int currentX = x + i; //x atual
                     int currentY = y + j; //y atual
