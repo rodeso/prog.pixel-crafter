@@ -167,6 +167,7 @@ namespace prog {
                 }
             }
         }
+        delete png;
     }   
     void Script::rotate_rigth(){
         // 90 graus para a direita
