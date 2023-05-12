@@ -81,11 +81,7 @@ namespace prog {
                 continue;
             }
             if(command=="add"){
-                string filename;
-                rgb_value r, g, b = 120;
-                int x,y;
-                input >> filename >> r >> g >> b >> x >>y;
-                add(filename , r, g, b, x, y);
+                add();
                 continue;
             }
             if(command=="crop"){
@@ -98,8 +94,8 @@ namespace prog {
                 rotate_left();
                 continue;
             }
-            if(command=="roate_right"){
-                rotate_rigth();
+            if(command=="rotate_right"){
+                rotate_right();
                 continue;
             }
 
@@ -148,28 +144,29 @@ namespace prog {
         }
         *this->image=image;//atualiza imagem
     }
-    void Script::add(const std::string &filename, rgb_value r, rgb_value g, rgb_value b, int x, int y) {
+    void Script::add() {
+        string filename;
+        Color neutral;
+        int x, y;
+        input >> filename >> neutral >> x >> y; //adiciona os parametros
         Image *png = loadFromPNG(filename); //carrega a imagem
         int pngW = png->width(); //largura da imagem
         int pngH = png->height(); //altura da imagem
-        Color neutral(r, g, b); //cria a cor neutra
-        
+                
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
                 Color pngC = png->at(i, j); //guarda a cor em pngC            
-                if (pngC.red() != r || pngC.green() != g || pngC.blue() != b) { //copia apenas os diferentes ao neutro
+                if (pngC.red() != neutral.red() || pngC.green() != neutral.green() || pngC.blue() != neutral.blue()) { //copia apenas os diferentes ao neutro
                     int currentX = x + i; //x atual
                     int currentY = y + j; //y atual
-
-                    if (currentX >= 0 && currentX < image->width() && currentY >= 0 && currentY < image->height()) { //pixel atual = pixel copiado
-                        image->at(currentX, currentY) = pngC;
+                    image->at(currentX, currentY) = pngC;
                     }
                 }
             }
         }
         delete png;
     }   
-    void Script::rotate_rigth(){
+    void Script::rotate_right(){
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
         int w=image->height();
