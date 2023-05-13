@@ -163,9 +163,8 @@ namespace prog {
                     }
                 }
             }
-        }
         delete png;
-    }   
+    }
     void Script::rotate_right(){
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
