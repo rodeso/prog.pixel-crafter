@@ -50,7 +50,6 @@ namespace prog {
                 continue;
             }/* 
             // TODO ...
-            /*
             if(command=="invert"){
                 invert();
                 continue;
