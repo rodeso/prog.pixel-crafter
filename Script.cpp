@@ -3,6 +3,7 @@
 #include "Script.hpp"
 #include "PNG.hpp"
 #include "XPM2.hpp"
+#include <algorithm>
 
 using namespace std;
 
@@ -49,6 +50,7 @@ namespace prog {
                 continue;
             } 
             // TODO ...
+            /*
             if(command=="invert"){
                 invert();
                 continue;
@@ -72,6 +74,7 @@ namespace prog {
                 fill(x,y,w,h,c3);
                 continue;
             }
+            */
             if(command=="h_mirror"){
                 h_mirror();
                 continue;
@@ -81,6 +84,8 @@ namespace prog {
                 continue;
             }
             if(command=="add"){
+                
+                
                 add();
                 continue;
             }
@@ -90,14 +95,17 @@ namespace prog {
                 crop(x,y,w,h);
                 continue;
             }
+            
             if(command=="rotate_left"){
                 rotate_left();
                 continue;
             }
+            
             if(command=="rotate_right"){
-                rotate_right();
+                rotate_rigth();
                 continue;
             }
+
 
         }
     }
@@ -122,6 +130,7 @@ namespace prog {
         input >> filename;
         saveToPNG(filename, image);
     }
+    
     void Script::v_mirror() { //espelhar a imagem verticalmente
         Image image = *this->image;
         int w = image.width();
@@ -131,7 +140,7 @@ namespace prog {
                 swap(image.at(x, y), image.at(x, h - 1 - y)); //troca os pixeis em (x,y) com (x,h-1-y), invertendo todos os pixeis ao percorrer metade
             }
         }
-        *this->image=image;//atualiza imagem
+        *this->image=image;
     }
     void Script::h_mirror() { //espelhar a imagem horizontalmente
         Image image = *this->image;
@@ -142,30 +151,36 @@ namespace prog {
                 swap(image.at(x, y), image.at(w - 1 - x, y)); //troca os pixeis em (x,y) com (w-1-x,y) invertendo todos os pixeis ao percorrer metade
             }
         }
-        *this->image=image;//atualiza imagem
+        *this->image=image;
     }
     void Script::add() {
         string filename;
         Color neutral;
-        int x, y;
-        input >> filename >> neutral >> x >> y; //adiciona os parametros
-        Image *png = loadFromPNG(filename); //carrega a imagem
+        int x,y;
+        input >> filename >>neutral>> x>>y;
+        Image *png=loadFromPNG(filename); //carrega a imagem
         int pngW = png->width(); //largura da imagem
         int pngH = png->height(); //altura da imagem
-                
+        
+        
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
                 Color pngC = png->at(i, j); //guarda a cor em pngC            
-                if (pngC.red() != neutral.red() || pngC.green() != neutral.green() || pngC.blue() != neutral.blue()) { //copia apenas os diferentes ao neutro
+                if (pngC.red()==neutral.red() && pngC.green()==neutral.green() && pngC.blue()==neutral.blue()) { //copia apenas os diferentes ao neutro
+                    continue;
+                    
+                }
+                else{
                     int currentX = x + i; //x atual
                     int currentY = y + j; //y atual
                     image->at(currentX, currentY) = pngC;
-                    }
                 }
             }
+        }
         delete png;
     }
-    void Script::rotate_right(){
+    
+    void Script::rotate_rigth(){
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
         int w=image->height();
@@ -198,7 +213,7 @@ namespace prog {
         Image v(w,h,temp);
         *image=v;
     }
-    void Script::crop(int x,int y,int w,int h){
+    void Script:: crop(int x,int y,int w,int h){
         Image v(w,h);
         vector<vector<Color>> temp;
         for(int i=x;i<w+x;i++){
@@ -214,7 +229,4 @@ namespace prog {
             }
         }
         *image=v;
-        
-        
     }
-}
