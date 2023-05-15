@@ -1,4 +1,6 @@
 #include "Color.hpp"
+#include <sstream>
+#include <iomanip>
 
 namespace prog {
     // construtor default
@@ -28,6 +30,14 @@ namespace prog {
     }
     rgb_value Color::blue() const {
         return blue_;
+    }
+    //rgb para hex
+    std::string Color::toHex() const {
+        std::stringstream ss;
+        ss << "#" << std::setfill('0') << std::setw(2) << std::hex << red_
+           << std::setfill('0') << std::setw(2) << std::hex << green_
+           << std::setfill('0') << std::setw(2) << std::hex << blue_;
+        return ss.str();
     }
 
     // retorna referencias mutáveis

@@ -7,12 +7,12 @@ namespace prog
   class Image
   {
   private:
-    int w_,h_;
-    std::vector<std::vector<Color>> pixeis_;
+    int width_, height_;
+    std::vector<std::vector<Color>> pixel_;
   public:
     Image(int w, int h, const Color &fill = {255, 255, 255});
     Image(const Image& i);
-    Image(int w,int h, const std::vector<std::vector<Color>>& pixeis);
+    Image(int w,int h, const std::vector<std::vector<Color>>& pixel);
     ~Image();
     int width() const;
     int height() const;

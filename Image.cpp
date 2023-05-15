@@ -2,57 +2,55 @@
 #include <vector>
 namespace prog
 {
-  Image::Image(int w, int h, const Color &fill)
+  Image::Image(int w, int h, const Color &fill) //construtor
   {
-    w_=w;
-    h_=h;
+    width_ = w;
+    height_ = h;
     
-    for (int i = 0; i < w_; i++)
+    for (int i = 0; i < width_; i++)
     {
       std::vector<Color> v;
-      for(int j =0 ; j<h_ ;j++){
+      for(int j =0 ; j < height_ ;j++){
         v.push_back(fill);
       }
-      pixeis_.push_back(v);
+      pixel_.push_back(v);
       
     }
-    
-    
   }
-  Image::Image(const Image& i){
-    w_=i.w_;
-    h_=i.h_;
-    pixeis_=i.pixeis_;
+  Image::Image(const Image& i){ //copia construtor
+    width_ = i.width_;
+    height_ = i.height_;
+    pixel_ = i.pixel_;
 
   }
-  Image::Image(int w, int h,const std::vector<std::vector<Color>>& pixeis){
-    w_=w;
-    h_=h;
-    pixeis_=pixeis;
+  Image::Image(int w, int h,const std::vector<std::vector<Color>>& pixel){ //construtor
+    width_ = w;
+    height_ = h;
+    pixel_ = pixel;
   }
-  Image::~Image()
+  Image::~Image() //destrutor
   {
     
   }
-  int Image::width() const
+  int Image::width() const //retorna a largura do image
   {
-    return w_;
+    return width_;
   }
-  int Image::height() const
+  int Image::height() const //retorna a altura do image
   {
-    return h_;
+    return height_;
   }
 
   
   
 
-  Color& Image::at(int x, int y)
+  Color& Image::at(int x, int y) //muda o pixel
   {
-    return pixeis_[x][y];
+    return pixel_[x][y];
   }
 
-  const Color& Image::at(int x, int y) const
+  const Color& Image::at(int x, int y) const //mostra o pixel
   {
-    return pixeis_[x][y];
+    return pixel_[x][y];
   }
 }

@@ -1,5 +1,6 @@
 #ifndef __prog_Color_hpp__
 #define __prog_Color_hpp__
+#include <string>
 
 namespace prog
 {
@@ -14,6 +15,7 @@ namespace prog
       Color();
       Color(const Color& c);
       Color(rgb_value r, rgb_value g, rgb_value b);
+      std::string toHex() const;
       rgb_value red() const;
       rgb_value& red();
       rgb_value green() const;

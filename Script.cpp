@@ -48,7 +48,7 @@ namespace prog {
             if (command == "save") {
                 save();
                 continue;
-            } 
+            }/* 
             // TODO ...
             /*
             if(command=="invert"){
@@ -73,8 +73,7 @@ namespace prog {
                 input >>c3;
                 fill(x,y,w,h,c3);
                 continue;
-            }
-            */
+            }*/
             if(command=="h_mirror"){
                 h_mirror();
                 continue;
@@ -102,7 +101,14 @@ namespace prog {
             }
             
             if(command=="rotate_right"){
-                rotate_rigth();
+                rotate_right();
+                continue;
+            }
+            if(command=="xpm2_open") {
+                clear_image_if_any();
+                string xpm2_filename;
+                input >> xpm2_filename;
+                loadFromXPM2(xpm2_filename);
                 continue;
             }
 
@@ -180,20 +186,20 @@ namespace prog {
         delete png;
     }
     
-    void Script::rotate_rigth(){
+    void Script::rotate_right(){
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
-        int w=image->height();
-        int h=image->width();
-        for(int i=w-1; i>=0;i--){//escolhe uma linha a começar do fim
+        int w = image->height();
+        int h = image->width();
+        for(int i = w-1; i >= 0; i--){//escolhe uma linha a começar do fim
             vector<Color> new_colum;
-            for(int j=0;j<h;j++){
+            for(int j = 0; j < h; j++){
                 new_colum.push_back(image->at(j,i));//preenche coluna
             }
             temp.push_back(new_colum);//junta coluna à nova imagem
         }
-        Image v(w,h,temp);
-        *image= v;
+        Image v(w, h, temp);
+        *image = v;
         
 
     }
@@ -202,31 +208,34 @@ namespace prog {
         int h=image->width();
         vector<vector<Color>> temp;
         
-       for(int i=0 ; i<image->height();i++){//fixa uma linha
+       for(int i=0; i < image->height(); i++){//fixa uma linha
             vector<Color> new_line;
-            for(int j=image->width()-1 ;j>=0;j--){//anda de coluna em coluna
+            for(int j = image->width()-1; j >= 0; j--){//anda de coluna em coluna
                 new_line.push_back(image->at(j,i));
             }
             temp.push_back(new_line);
             
         }
-        Image v(w,h,temp);
-        *image=v;
+        Image v(w, h, temp);
+        *image = v;
     }
-    void Script:: crop(int x,int y,int w,int h){
-        Image v(w,h);
+    void Script::crop(int x, int y, int w, int h){
+        Image v(w, h);
         vector<vector<Color>> temp;
-        for(int i=x;i<w+x;i++){
+        for(int i = x; i < w+x; i++){
             vector<Color> new_colum;
-            for(int j=y;j<h+y;j++){
+            for(int j = y ;j < h+y; j++){
                 new_colum.push_back(image->at(i,j));
             }
             temp.push_back(new_colum);
         }
-        for(int x=0;x<w;x++){
-            for(int y=0;y<h;y++){
-                v.at(x,y)=temp[x][y];
+        for(int x = 0;x < w; x++){
+            for(int y = 0; y<h; y++){
+                v.at(x, y) = temp[x][y];
             }
         }
-        *image=v;
+        *image = v;
+        
+        
     }
+}
