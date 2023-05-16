@@ -48,14 +48,10 @@ namespace prog {
             if (command == "save") {
                 save();
                 continue;
-            }/* 
+            }
             // TODO ...
             if(command=="invert"){
                 invert();
-                continue;
-            }
-            if(command=="to_gray_scale"){
-                to_gray_scale();
                 continue;
             }
             if(command=="replace"){
@@ -63,8 +59,15 @@ namespace prog {
                 input>>c1;
                 input>>c2;
                 replace(c1,c2);
+                
                 continue;
             }
+            /* 
+            if(command=="to_gray_scale"){
+                to_gray_scale();
+                continue;
+            }
+
             if(command=="fill"){
                 int x,y,w,h;
                 input >> x>>y>>w>>h;
@@ -237,4 +240,70 @@ namespace prog {
         
         
     }
+    void Script::invert(){
+        int w = image->width();
+        int h = image->height();
+
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                Color& pixel = image->at(x, y);
+
+                pixel.red() = 255 - pixel.red();
+                pixel.green() = 255 - pixel.green();
+                pixel.blue() = 255 - pixel.blue();
+            }
+        }
+    }
+     void Script::replace(Color c1, Color c2) {
+        int w = image->width();
+        int h = image->height();
+
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                Color& pixel = image->at(x, y);
+
+                if (pixel.red() == c1.red() && pixel.green() == c1.green() && pixel.blue() == c1.blue()) {
+                    pixel.red() = c2.red();
+                    pixel.green() = c2.green();
+                    pixel.blue() = c2.blue();
+                }
+            }
+        }
+    }
+   /* void to_gray_scale();{}
+   
+
+    void replace(Color c1 ,Color c2);{}
+
+    void fill(int x, int y, int w, int h, Color c);{}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
