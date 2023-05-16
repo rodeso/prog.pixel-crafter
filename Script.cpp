@@ -103,6 +103,10 @@ namespace prog {
                 rotate_right();
                 continue;
             }
+            if(command=="median_filter"){
+                median_filter();
+                continue;
+            }
             if(command=="xpm2_open") {
                 clear_image_if_any();
                 string xpm2_filename;
@@ -187,22 +191,25 @@ namespace prog {
     
     void Script::rotate_right(){
         // 90 graus para a direita
-        vector<vector<Color>> temp; //vetor para reorganizar a imagem
+        vector<vector<Color>> temp;//vetor para reorganizar a imagem
+        //novas dimensões
         int w = image->height();
         int h = image->width();
         for(int i = w-1; i >= 0; i--){//escolhe uma linha a começar do fim
             vector<Color> new_colum;
-            for(int j = 0; j < h; j++){
-                new_colum.push_back(image->at(j,i));//preenche coluna
+            for(int j = 0; j < h; j++){//escolhe uma coluna
+                new_colum.push_back(image->at(j,i));//preenche coluna de v
             }
             temp.push_back(new_colum);//junta coluna à nova imagem
         }
+        //atualiza a imagem
         Image v(w, h, temp);
         *image = v;
         
 
     }
     void Script::rotate_left(){
+        //90 graus para a esquerda
         int w=image->height();
         int h=image->width();
         vector<vector<Color>> temp;
@@ -210,31 +217,76 @@ namespace prog {
        for(int i=0; i < image->height(); i++){//fixa uma linha
             vector<Color> new_line;
             for(int j = image->width()-1; j >= 0; j--){//anda de coluna em coluna
-                new_line.push_back(image->at(j,i));
+                new_line.push_back(image->at(j,i));//preenche coluna de v
             }
             temp.push_back(new_line);
             
         }
+        //atualiza imagem
         Image v(w, h, temp);
         *image = v;
     }
     void Script::crop(int x, int y, int w, int h){
-        Image v(w, h);
+        Image v(w, h);//nova imagem
         vector<vector<Color>> temp;
-        for(int i = x; i < w+x; i++){
+        for(int i = x; i < w+x; i++){//escolhe uma coluna
             vector<Color> new_colum;
-            for(int j = y ;j < h+y; j++){
+            for(int j = y ;j < h+y; j++){//escolhe linha
                 new_colum.push_back(image->at(i,j));
             }
             temp.push_back(new_colum);
         }
+        //coloca cores na nova imagem
         for(int x = 0;x < w; x++){
             for(int y = 0; y<h; y++){
                 v.at(x, y) = temp[x][y];
             }
         }
-        *image = v;
+        *image = v;//atualiza a imagem
         
         
+    }
+    void Script::median_filter(){
+        int ws;
+        input >> ws;
+        int dim=ws/2;//distancia a percorrer a partir do centro da janela
+        Image v(image->width(),image->height());
+        for(int x=0; x<image->width();x++){
+            for(int y=0;y<image->height();y++){
+                //vetores para os valores de cada cor
+                vector<rgb_value> v_mr;
+                vector<rgb_value> v_mg;
+                vector<rgb_value> v_mb;
+                for(int i=max(0,x-dim);i<=min(image->width()-1,x+dim);i++){//percorre a janela garantindo que nunca sai do limite
+                    for(int j=max(0,y-dim);j<=min(image->height()-1,y+dim);j++){
+                        //guarda os valores de cada cor
+                        v_mr.push_back(image->at(i,j).red());
+                        v_mg.push_back(image->at(i,j).green());
+                        v_mb.push_back(image->at(i,j).blue());
+                    }
+                    
+                }
+                //ordena valores
+                sort(v_mr.begin(),v_mr.end());
+                sort(v_mg.begin(),v_mg.end());
+                sort(v_mb.begin(),v_mb.end());
+                rgb_value r,g,b;
+                unsigned long int size=v_mb.size();
+                //calcula a mediana de cada valor
+                if(size%2==0){
+                    r= ((v_mr[ size / 2 - 1] + v_mr[ size / 2]))/2;
+                    g=((v_mg[ size / 2 - 1] + v_mg[ size / 2]))/2;
+                    b=((v_mb[ size / 2 - 1] + v_mb[ size / 2]))/2;
+                }
+                else{
+                    r=v_mr[size/2];
+                    g=v_mg[size/2];
+                    b=v_mb[size/2];
+                }
+                Color temp(r,g,b);//nova cor com as medianas
+                v.at(x,y)=temp;//coloca na nova imagem
+            }
+        }
+        *image=v;//atualiza a imagem 
     }
 }
