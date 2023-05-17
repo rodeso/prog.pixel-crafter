@@ -53,4 +53,21 @@ namespace prog
   {
     return pixel_[x][y];
   }
+  const int Image::num_color(){
+    int count=1;
+    Color anterior=pixeis_[0][0];
+    for(int i=0; i<h_;i++){
+      for(int j=0; i<w_;j++){
+        if(anterior.red()==pixeis_[i][j].red() && anterior.green()==pixeis_[i][j].green() && anterior.blue()==pixeis_[i][j].blue() ){
+          continue;
+        }
+        else{
+          count++;
+
+        }
+        anterior=pixeis_[i][j];
+      }
+    }
+    return count;
+  }
 }
