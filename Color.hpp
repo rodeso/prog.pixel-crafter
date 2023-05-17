@@ -5,6 +5,7 @@
 namespace prog
 {
   typedef unsigned char rgb_value;
+  
   class Color
   {
     private:

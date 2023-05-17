@@ -1,5 +1,6 @@
 #include "XPM2.hpp"
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -8,15 +9,6 @@
 
 
 namespace prog {
-
-    Color getColor(const std::string& str) { //hex para rgb
-        
-        rgb_value r = std::stoi(str.substr(1, 2), nullptr, 16);
-        rgb_value g = std::stoi(str.substr(3, 2), nullptr, 16);
-        rgb_value b = std::stoi(str.substr(5, 2), nullptr, 16);
-
-        return Color(r, g, b);
-    }
 
     Image* loadFromXPM2(const std::string& file) {
 
@@ -64,7 +56,6 @@ namespace prog {
             getline(fileStream, line);
             for (int j = 0; j < width; j++) {
                 char symbol = line[j];
-                std::cout << symbol;
                 auto colorIter = colorMap.find(symbol);
                 if (colorIter == colorMap.end()) {
                     throw std::runtime_error("Invalid pixel color in XPM file");
@@ -72,28 +63,75 @@ namespace prog {
                 }
                 image->at(j, i) = colorIter->second;
             }
-            std::cout << std::endl;
         }
         
         return image; //retorna o que é pedido
     }
-
-
     void saveToXPM2(const std::string& file, const Image* image) {
-        std::ofstream fileStream(file); //load do ficheiro
-        fileStream << "! XPM2" << std::endl;
-        = image->num_color
-        fileStream << image->width() << " " << image->height() << std::endl; << image->/*num_color*/() << " 1" << std:endl;
-        for (int c = 0, c < numberOfcolors; c++) {
-            fileStream << c << " c #" << image->at().toHex() << std::endl;
 
-            for (int i = 0; i < image->height(); i++) {
-                for (int j = 0; j < image->width(); j++) {
-                    fileStream << simbolo da cor em image->at(j, i) << " " << simbolo da cor em image->at(j, i) << " " << simbolo da image->at(j, i);
-                }
-                fileStream << std::endl;
-            }
-    }
+        char symbol = '!'; // chave para o map e cores no XPM (penso que o '!' é o primeiro símbolo em ASCII)
         
+        //colorMap para fazer a equivalência certa
+        std::unordered_map<char, Color> colorMap;
+        for (int i = 0; i < image->height(); i++) {
+            for (int j = 0; j < image->width(); j++) {
+                Color color = image->at(j, i); //cor atual
+                if (colorMap.find(symbol) == colorMap.end() && !hasColor(colorMap, color)) { //verifica se a cor não existe no map
+                    colorMap[symbol] = color; //adiciona a chave e cores no map
+                    symbol++; //próximo símbolo
+                }
+            }
+        }
+
+        int numberOfColors = colorMap.size(); //tamanho do map para saber o número de cores
+
+        std::ofstream fileStream(file); //cria o ficheiro
+        fileStream << "! XPM2" << std::endl; //primeira linha
+        fileStream << image->width() << " " << image->height() << " " << numberOfColors << " 1" << std::endl; //segunda linha
+
+        // chaves e cores
+        for (const auto& entry : colorMap) {
+            char key = entry.first;
+            Color color = entry.second;
+            fileStream << key << " c " << color.toHex() << std::endl; //chama a função que converte a cor em hex para preencher as linhas
+        }
+
+        // criar a imagem com as chaves e cores
+        for (int i = 0; i < image->height(); i++) {
+            for (int j = 0; j < image->width(); j++) {
+                Color currentColor = image->at(j, i); //obtem a cor atual
+                char symbol = colorToSymbol(colorMap, currentColor); //chama a função auxiliar como se fosse colorMap[color]
+                fileStream << symbol; //preenche a linha
+            }
+            fileStream << std::endl; //muda de linha para fazer em altura
+        }
+    }
+    //função auxiliar para obter a cor a partir de hex
+    Color getColor(const std::string& str) {        
+        rgb_value r = std::stoi(str.substr(1, 2), nullptr, 16);
+        rgb_value g = std::stoi(str.substr(3, 2), nullptr, 16);
+        rgb_value b = std::stoi(str.substr(5, 2), nullptr, 16);
+        return Color(r, g, b);
+    }
+    //função auxiliar para verificar se uma cor existe no map para evitar preencher o map com todos os pixeis
+    bool hasColor(const std::unordered_map<char, Color>& colorMap, const Color& color) {
+        for (const auto& pair : colorMap) {
+            if (pair.second.red() == color.red() && pair.second.green() == color.green() && pair.second.blue() == color.blue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    //função auxiliar para obter o símbolo a partir da cor para passar para o XPM, um inverso do colorMap[symbol]
+    char colorToSymbol(const std::unordered_map<char, Color>& colorMap, const Color& currentColor) {
+        for (const auto& pair : colorMap) {
+            if (pair.second.red() == currentColor.red() && pair.second.green() == currentColor.green() && pair.second.blue() == currentColor.blue()) {
+                return pair.first;
+            }
+        }
+        return '\0';
+    }
+
 }
 

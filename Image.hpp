@@ -2,10 +2,8 @@
 #define __prog_Image_hpp__
 #include "Color.hpp"
 #include <vector>
-namespace prog
-{
-  class Image
-  {
+namespace prog {
+  class Image {
   private:
     int width_, height_;
     std::vector<std::vector<Color>> pixel_;

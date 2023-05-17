@@ -17,7 +17,6 @@ namespace prog {
         c.blue() = b;
         return input;
     }
-
     Script::Script(const string& filename) :
             image(nullptr), input(filename) {
 
@@ -31,7 +30,6 @@ namespace prog {
     Script::~Script() {
         clear_image_if_any();
     }
-
     void Script::run() {
         string command;
         while (input >> command) {
@@ -50,22 +48,22 @@ namespace prog {
                 continue;
             }/* 
             // TODO ...
-            if(command=="invert"){
+            if(command=="invert") {
                 invert();
                 continue;
             }
-            if(command=="to_gray_scale"){
+            if(command=="to_gray_scale") {
                 to_gray_scale();
                 continue;
             }
-            if(command=="replace"){
+            if(command=="replace") {
                 Color c1,c2;
                 input>>c1;
                 input>>c2;
                 replace(c1,c2);
                 continue;
             }
-            if(command=="fill"){
+            if(command=="fill") {
                 int x,y,w,h;
                 input >> x>>y>>w>>h;
                 Color c3;
@@ -73,37 +71,33 @@ namespace prog {
                 fill(x,y,w,h,c3);
                 continue;
             }*/
-            if(command=="h_mirror"){
+            if(command=="h_mirror") {
                 h_mirror();
                 continue;
             }
-            if(command=="v_mirror"){
+            if(command=="v_mirror") {
                 v_mirror();
                 continue;
             }
-            if(command=="add"){
-                
-                
+            if(command=="add") {                
                 add();
                 continue;
             }
-            if(command=="crop"){
+            if(command=="crop") {
                 int x,y,w,h;
                 input >> x >>y >>w>>h;
                 crop(x,y,w,h);
                 continue;
-            }
-            
-            if(command=="rotate_left"){
+            }            
+            if(command=="rotate_left") {
                 rotate_left();
                 continue;
-            }
-            
-            if(command=="rotate_right"){
+            }            
+            if(command=="rotate_right") {
                 rotate_right();
                 continue;
             }
-            if(command=="median_filter"){
+            if(command=="median_filter") {
                 median_filter();
                 continue;
             }
@@ -114,8 +108,11 @@ namespace prog {
                 image = loadFromXPM2(xpm2_filename);
                 continue;
             }
-
-
+            if(command=="xpm2_save") {
+                string xpm2_filename;
+                input >> xpm2_filename;
+                saveToXPM2(xpm2_filename, image);
+            }
         }
     }
     void Script::open() {
@@ -138,8 +135,7 @@ namespace prog {
         string filename;
         input >> filename;
         saveToPNG(filename, image);
-    }
-    
+    }    
     void Script::v_mirror() { //espelhar a imagem verticalmente
         Image image = *this->image;
         int w = image.width();
@@ -187,8 +183,7 @@ namespace prog {
             }
         }
         delete png;
-    }
-    
+    }    
     void Script::rotate_right(){
         // 90 graus para a direita
         vector<vector<Color>> temp;//vetor para reorganizar a imagem
@@ -204,9 +199,7 @@ namespace prog {
         }
         //atualiza a imagem
         Image v(w, h, temp);
-        *image = v;
-        
-
+        *image = v;  
     }
     void Script::rotate_left(){
         //90 graus para a esquerda
@@ -245,6 +238,49 @@ namespace prog {
         *image = v;//atualiza a imagem
         
         
+    }
+    void Script::median_filter(){
+        int ws;
+        input >> ws;
+        int dim=ws/2;//distancia a percorrer a partir do centro da janela
+        Image v(image->width(),image->height());
+        for(int x=0; x<image->width();x++){
+            for(int y=0;y<image->height();y++){
+                //vetores para os valores de cada cor
+                vector<rgb_value> v_mr;
+                vector<rgb_value> v_mg;
+                vector<rgb_value> v_mb;
+                for(int i=max(0,x-dim);i<=min(image->width()-1,x+dim);i++){//percorre a janela garantindo que nunca sai do limite
+                    for(int j=max(0,y-dim);j<=min(image->height()-1,y+dim);j++){
+                        //guarda os valores de cada cor
+                        v_mr.push_back(image->at(i,j).red());
+                        v_mg.push_back(image->at(i,j).green());
+                        v_mb.push_back(image->at(i,j).blue());
+                    }
+                    
+                }
+                //ordena valores
+                sort(v_mr.begin(),v_mr.end());
+                sort(v_mg.begin(),v_mg.end());
+                sort(v_mb.begin(),v_mb.end());
+                rgb_value r,g,b;
+                unsigned long int size=v_mb.size();
+                //calcula a mediana de cada valor
+                if(size%2==0){
+                    r= ((v_mr[ size / 2 - 1] + v_mr[ size / 2]))/2;
+                    g=((v_mg[ size / 2 - 1] + v_mg[ size / 2]))/2;
+                    b=((v_mb[ size / 2 - 1] + v_mb[ size / 2]))/2;
+                }
+                else{
+                    r=v_mr[size/2];
+                    g=v_mg[size/2];
+                    b=v_mb[size/2];
+                }
+                Color temp(r,g,b);//nova cor com as medianas
+                v.at(x,y)=temp;//coloca na nova imagem
+            }
+        }
+        *image=v;//atualiza a imagem 
     }
     void Script::median_filter(){
         int ws;
