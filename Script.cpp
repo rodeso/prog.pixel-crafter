@@ -111,7 +111,7 @@ namespace prog {
                 clear_image_if_any();
                 string xpm2_filename;
                 input >> xpm2_filename;
-                loadFromXPM2(xpm2_filename);
+                image = loadFromXPM2(xpm2_filename);
                 continue;
             }
 

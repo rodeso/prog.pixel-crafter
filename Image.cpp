@@ -23,7 +23,7 @@ namespace prog
     pixel_ = i.pixel_;
 
   }
-  Image::Image(int w, int h,const std::vector<std::vector<Color>>& pixel){ //construtor
+  Image::Image(int w, int h, const std::vector<std::vector<Color>>& pixel) { //construtor
     width_ = w;
     height_ = h;
     pixel_ = pixel;

@@ -11,9 +11,9 @@ namespace prog {
 
     Color getColor(const std::string& str) { //hex para rgb
         
-        int r = std::stoi(str.substr(1, 2), nullptr, 16);
-        int g = std::stoi(str.substr(3, 2), nullptr, 16);
-        int b = std::stoi(str.substr(5, 2), nullptr, 16);
+        rgb_value r = std::stoi(str.substr(1, 2), nullptr, 16);
+        rgb_value g = std::stoi(str.substr(3, 2), nullptr, 16);
+        rgb_value b = std::stoi(str.substr(5, 2), nullptr, 16);
 
         return Color(r, g, b);
     }
@@ -44,7 +44,7 @@ namespace prog {
 
         std::unordered_map<char, Color> colorMap;
         //percorre as linhas codificadas para adiquirir as cores em função dos simbolos/chaves
-        for (int i = 0; i < num_colors; ++i) { 
+        for (int i = 0; i < num_colors; i++) { 
             getline(fileStream, line);
             std::istringstream colorIss(line);
             char symbol; //chave para o map e cores no XMP
@@ -57,30 +57,43 @@ namespace prog {
             Color color = getColor(hex); //converte hex para rgb
             colorMap[symbol] = color; //adiciona a chave e cores no map
         }
-            //W.I.P.
-        std::vector<std::vector<Color>> data(height, std::vector<Color>(width));
+            
+        Image* image = new Image(width, height); //cria a nossa salvação
         //percorre a imagem em caracteres para atribuir uma cor a cada pixel
         for (int i = 0; i < height; i++) {
             getline(fileStream, line);
             for (int j = 0; j < width; j++) {
                 char symbol = line[j];
+                std::cout << symbol;
                 auto colorIter = colorMap.find(symbol);
                 if (colorIter == colorMap.end()) {
                     throw std::runtime_error("Invalid pixel color in XPM file");
                     return nullptr;
                 }
-                data[i][j] = colorIter->second;
+                image->at(j, i) = colorIter->second;
             }
+            std::cout << std::endl;
         }
         
-        Image* image = new Image(width, height, data); //cria a imagem 
         return image; //retorna o que é pedido
     }
 
 
     void saveToXPM2(const std::string& file, const Image* image) {
-        //TODO
-    }
+        std::ofstream fileStream(file); //load do ficheiro
+        fileStream << "! XPM2" << std::endl;
+        = image->num_color
+        fileStream << image->width() << " " << image->height() << std::endl; << image->/*num_color*/() << " 1" << std:endl;
+        for (int c = 0, c < numberOfcolors; c++) {
+            fileStream << c << " c #" << image->at().toHex() << std::endl;
 
+            for (int i = 0; i < image->height(); i++) {
+                for (int j = 0; j < image->width(); j++) {
+                    fileStream << simbolo da cor em image->at(j, i) << " " << simbolo da cor em image->at(j, i) << " " << simbolo da image->at(j, i);
+                }
+                fileStream << std::endl;
+            }
+    }
+        
 }
 
