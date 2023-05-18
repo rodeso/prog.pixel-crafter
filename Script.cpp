@@ -62,12 +62,12 @@ namespace prog {
                 
                 continue;
             }
-            /* 
+            
             if(command=="to_gray_scale"){
                 to_gray_scale();
                 continue;
             }
-*/
+
             if(command=="fill"){
                 int x,y,w,h;
                 input >> x>>y>>w>>h;
@@ -244,13 +244,13 @@ namespace prog {
         int w = image->width();
         int h = image->height();
 
-        for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-                Color& pixel = image->at(x, y);
+        for (int x = 0; x < w; x++) { // inicia um loop que percorre a largura da imagem, de 0 até w
+            for (int y = 0; y < h; y++) { // dentro do loop de largura, inicia um loop que percorre a altura da imagem, de 0 até h
+                Color& pixel = image->at(x, y); // obtém a referência para o pixel na posição (x, y) e armazena na variável pixel
 
-                pixel.red() = 255 - pixel.red();
-                pixel.green() = 255 - pixel.green();
-                pixel.blue() = 255 - pixel.blue();
+                pixel.red() = 255 - pixel.red(); //inverte o vermelho do pixel subtraindo 255
+                pixel.green() = 255 - pixel.green(); // //inverte o verde do pixel subtraindo 255
+                pixel.blue() = 255 - pixel.blue(); // //inverte o azul do pixel subtraindo 255
             }
         }
     }
@@ -258,35 +258,45 @@ namespace prog {
         int w = image->width();
         int h = image->height();
 
-        for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-                Color& pixel = image->at(x, y);
+        for (int x = 0; x < w; x++) { // percorre a largura da imagem, de 0 até w.
+            for (int y = 0; y < h; y++) { // dentro do loop de largura, inicia um loop que percorre a altura da imagem, de 0 até h
+                Color& pixel = image->at(x, y); // Obtém a referência para o pixel na posição (x, y) e armazena na variável pixel
 
-                if (pixel.red() == c1.red() && pixel.green() == c1.green() && pixel.blue() == c1.blue()) {
-                    pixel.red() = c2.red();
-                    pixel.green() = c2.green();
-                    pixel.blue() = c2.blue();
+                if (pixel.red() == c1.red() && pixel.green() == c1.green() && pixel.blue() == c1.blue()) { // verifica se o vermelho,o verde e o azul do pixel são iguais aos da cor c1. se forem iguais, entra no bloco condicional
+                    pixel.red() = c2.red(); // substitui o  vermelho do pixel pelo vermelho da cor c2
+                    pixel.green() = c2.green(); // substitui o verde do pixel pelo verde da cor c2
+                    pixel.blue() = c2.blue(); // substitui o componente azul do pixel pelo componente azul da cor c2
                 }
             }
         }
     }
-   /* void to_gray_scale();{}
-   
 
-    void replace(Color c1 ,Color c2);{}
-
-    */
     void Script::fill(int x, int y, int w, int h, Color c) {
         int img_width = image->width();
         int img_height = image->height();
 
-        for (int i = x; i < x + w && i < img_width; ++i) {
-            for (int j = y; j < y + h && j < img_height; ++j) {
-                image->at(i, j) = c;
+        for (int i = x; i < x + w && i < img_width; ++i) { // inicia um loop que percorre a largura da área a ser preenchida, começando na posição x e indo até x + w ou até o limite da largura da imagem
+            for (int j = y; j < y + h && j < img_height; ++j) { // dentro do loop de largura, inicia um loop que percorre a altura da área a ser preenchida, começando na posição y e indo até y + h ou até o limite da altura da imagem
+                image->at(i, j) = c; // define a cor do pixel na posição (i, j) como a cor c.
+
+
             }
         }
     }
+    void Script::to_gray_scale() {
+        int width = image->width();
+        int height = image->height();
 
+        for (int x = 0; x < width; x++) { // começa um loop que percorre a largura da imagem (de 0 até width)
+            for (int y = 0; y < height; y++) { // dentro do loop de largura, começa outro loop que percorre a altura da imagem (de 0 até height)
+                Color &color = image->at(x, y); // obtém a referência para a cor do pixel na posição (x, y) e armazena na variável color
+                int v = (color.red() + color.green() + color.blue()) / 3; // calcula a média dos valores dos componentes vermelho, verde e azul da cor do pixel e armazena o resultado na variável v.
+                color.red() = v; // define o valor do componente vermelho da cor do pixel como v
+                color.green() = v; // define o valor do componente verde da cor do pixel como v
+                color.blue() = v; // define o valor do componente azul da cor do pixel como v
+            }
+        }
+    }
 
 
 
