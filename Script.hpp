@@ -29,9 +29,9 @@ namespace prog
     void replace(Color c1 ,Color c2);
     /*
     void to_gray_scale();
-    
-    void fill(int x, int y, int w, int h, Color c);
     */
+    void fill(int x, int y, int w, int h, Color c);
+    
     void v_mirror();
     void h_mirror();
     void add();

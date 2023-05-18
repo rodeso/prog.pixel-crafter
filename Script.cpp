@@ -67,7 +67,7 @@ namespace prog {
                 to_gray_scale();
                 continue;
             }
-
+*/
             if(command=="fill"){
                 int x,y,w,h;
                 input >> x>>y>>w>>h;
@@ -75,7 +75,7 @@ namespace prog {
                 input >>c3;
                 fill(x,y,w,h,c3);
                 continue;
-            }*/
+            }
             if(command=="h_mirror"){
                 h_mirror();
                 continue;
@@ -275,8 +275,17 @@ namespace prog {
 
     void replace(Color c1 ,Color c2);{}
 
-    void fill(int x, int y, int w, int h, Color c);{}*/
+    */
+    void Script::fill(int x, int y, int w, int h, Color c) {
+        int img_width = image->width();
+        int img_height = image->height();
 
+        for (int i = x; i < x + w && i < img_width; ++i) {
+            for (int j = y; j < y + h && j < img_height; ++j) {
+                image->at(i, j) = c;
+            }
+        }
+    }
 
 
 
