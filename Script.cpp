@@ -282,47 +282,4 @@ namespace prog {
         }
         *image=v;//atualiza a imagem 
     }
-    void Script::median_filter(){
-        int ws;
-        input >> ws;
-        int dim=ws/2;//distancia a percorrer a partir do centro da janela
-        Image v(image->width(),image->height());
-        for(int x=0; x<image->width();x++){
-            for(int y=0;y<image->height();y++){
-                //vetores para os valores de cada cor
-                vector<rgb_value> v_mr;
-                vector<rgb_value> v_mg;
-                vector<rgb_value> v_mb;
-                for(int i=max(0,x-dim);i<=min(image->width()-1,x+dim);i++){//percorre a janela garantindo que nunca sai do limite
-                    for(int j=max(0,y-dim);j<=min(image->height()-1,y+dim);j++){
-                        //guarda os valores de cada cor
-                        v_mr.push_back(image->at(i,j).red());
-                        v_mg.push_back(image->at(i,j).green());
-                        v_mb.push_back(image->at(i,j).blue());
-                    }
-                    
-                }
-                //ordena valores
-                sort(v_mr.begin(),v_mr.end());
-                sort(v_mg.begin(),v_mg.end());
-                sort(v_mb.begin(),v_mb.end());
-                rgb_value r,g,b;
-                unsigned long int size=v_mb.size();
-                //calcula a mediana de cada valor
-                if(size%2==0){
-                    r= ((v_mr[ size / 2 - 1] + v_mr[ size / 2]))/2;
-                    g=((v_mg[ size / 2 - 1] + v_mg[ size / 2]))/2;
-                    b=((v_mb[ size / 2 - 1] + v_mb[ size / 2]))/2;
-                }
-                else{
-                    r=v_mr[size/2];
-                    g=v_mg[size/2];
-                    b=v_mb[size/2];
-                }
-                Color temp(r,g,b);//nova cor com as medianas
-                v.at(x,y)=temp;//coloca na nova imagem
-            }
-        }
-        *image=v;//atualiza a imagem 
-    }
 }
