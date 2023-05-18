@@ -173,7 +173,6 @@ namespace prog {
                 Color pngC = png->at(i, j); //guarda a cor em pngC            
                 if (pngC.red()==neutral.red() && pngC.green()==neutral.green() && pngC.blue()==neutral.blue()) { //copia apenas os diferentes ao neutro
                     continue;
-                    
                 }
                 else{
                     int currentX = x + i; //x atual
@@ -212,8 +211,7 @@ namespace prog {
             for(int j = image->width()-1; j >= 0; j--){//anda de coluna em coluna
                 new_line.push_back(image->at(j,i));//preenche coluna de v
             }
-            temp.push_back(new_line);
-            
+            temp.push_back(new_line);            
         }
         //atualiza imagem
         Image v(w, h, temp);
@@ -236,8 +234,6 @@ namespace prog {
             }
         }
         *image = v;//atualiza a imagem
-        
-        
     }
     void Script::median_filter(){
         int ws;
@@ -256,8 +252,7 @@ namespace prog {
                         v_mr.push_back(image->at(i,j).red());
                         v_mg.push_back(image->at(i,j).green());
                         v_mb.push_back(image->at(i,j).blue());
-                    }
-                    
+                    }                    
                 }
                 //ordena valores
                 sort(v_mr.begin(),v_mr.end());
