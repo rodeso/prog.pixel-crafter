@@ -50,11 +50,11 @@ namespace prog {
                 continue;
             }
             // TODO ...
-            if(command=="invert"){
+            if(command=="invert") {
                 invert();
                 continue;
             }
-            if(command=="replace"){
+            if(command=="replace") {
                 Color c1,c2;
                 input>>c1;
                 input>>c2;
@@ -62,11 +62,11 @@ namespace prog {
                 
                 continue;
             }            
-            if(command=="to_gray_scale"){
+            if(command=="to_gray_scale") {
                 to_gray_scale();
                 continue;
             }
-            if(command=="fill"){
+            if(command=="fill") {
                 int x,y,w,h;
                 input >> x>>y>>w>>h;
                 Color c3;
@@ -74,35 +74,34 @@ namespace prog {
                 fill(x,y,w,h,c3);
                 continue;
             }
-            if(command=="h_mirror"){
+            if(command=="h_mirror") {
                 h_mirror();
                 continue;
             }
-            if(command=="v_mirror"){
+            if(command=="v_mirror") {
                 v_mirror();
                 continue;
             }
-            if(command=="add"){             
+            if(command=="add") {             
                 add();
                 continue;
             }
-            if(command=="crop"){
+            if(command=="crop") {
                 int x,y,w,h;
                 input >> x >>y >>w>>h;
                 crop(x,y,w,h);
                 continue;
-            }
-            
+            }            
             if(command=="rotate_left"){
                 rotate_left();
                 continue;
             }
             
-            if(command=="rotate_right"){
+            if(command=="rotate_right") {
                 rotate_right();
                 continue;
             }
-            if(command=="median_filter"){
+            if(command=="median_filter") {
                 median_filter();
                 continue;
             }
@@ -141,8 +140,7 @@ namespace prog {
         string filename;
         input >> filename;
         saveToPNG(filename, image);
-    }
-    
+    }    
     void Script::v_mirror() { //espelhar a imagem verticalmente
         Image image = *this->image;
         int w = image.width();
@@ -174,13 +172,11 @@ namespace prog {
         int pngW = png->width(); //largura da imagem
         int pngH = png->height(); //altura da imagem
         
-        
         for (int i = 0; i < pngW; i++) {
             for (int j = 0; j < pngH; j++) { //percorre a imagem para ter a cor dos pixeis
                 Color pngC = png->at(i, j); //guarda a cor em pngC            
                 if (pngC.red()==neutral.red() && pngC.green()==neutral.green() && pngC.blue()==neutral.blue()) { //copia apenas os diferentes ao neutro
-                    continue;
-                    
+                    continue;                    
                 }
                 else{
                     int currentX = x + i; //x atual
@@ -191,8 +187,7 @@ namespace prog {
         }
         delete png;
     }
-    
-    void Script::rotate_right(){
+    void Script::rotate_right() {
         // 90 graus para a direita
         vector<vector<Color>> temp; //vetor para reorganizar a imagem
         int w = image->height();
@@ -205,11 +200,9 @@ namespace prog {
             temp.push_back(new_colum);//junta coluna à nova imagem
         }
         Image v(w, h, temp);
-        *image = v;
-        
-
+        *image = v;  
     }
-    void Script::rotate_left(){
+    void Script::rotate_left() {
         int w=image->height();
         int h=image->width();
         vector<vector<Color>> temp;
@@ -225,7 +218,7 @@ namespace prog {
         Image v(w, h, temp);
         *image = v;
     }
-    void Script::crop(int x, int y, int w, int h){
+    void Script::crop(int x, int y, int w, int h) {
         Image v(w, h);
         vector<vector<Color>> temp;
         for(int i = x; i < w+x; i++){
@@ -240,11 +233,9 @@ namespace prog {
                 v.at(x, y) = temp[x][y];
             }
         }
-        *image = v;
-        
-        
+        *image = v;     
     }
-    void Script::invert(){
+    void Script::invert() {
         int w = image->width();
         int h = image->height();
 
@@ -258,7 +249,7 @@ namespace prog {
             }
         }
     }
-     void Script::replace(Color c1, Color c2) {
+    void Script::replace(Color c1, Color c2) {
         int w = image->width();
         int h = image->height();
 
@@ -274,7 +265,6 @@ namespace prog {
             }
         }
     }
-
     void Script::fill(int x, int y, int w, int h, Color c) {
         int img_width = image->width();
         int img_height = image->height();
@@ -282,8 +272,6 @@ namespace prog {
         for (int i = x; i < x + w && i < img_width; ++i) { // inicia um loop que percorre a largura da área a ser preenchida, começando na posição x e indo até x + w ou até o limite da largura da imagem
             for (int j = y; j < y + h && j < img_height; ++j) { // dentro do loop de largura, inicia um loop que percorre a altura da área a ser preenchida, começando na posição y e indo até y + h ou até o limite da altura da imagem
                 image->at(i, j) = c; // define a cor do pixel na posição (i, j) como a cor c.
-
-
             }
         }
     }
@@ -301,7 +289,7 @@ namespace prog {
             }
         }
     }
-    void Script::median_filter(){
+    void Script::median_filter() {
         int ws;
         input >> ws;
         int dim=ws/2;//distancia a percorrer a partir do centro da janela
@@ -319,7 +307,6 @@ namespace prog {
                         v_mg.push_back(image->at(i,j).green());
                         v_mb.push_back(image->at(i,j).blue());
                     }
-
                 }
                 //ordena valores
                 sort(v_mr.begin(),v_mr.end());
@@ -345,32 +332,3 @@ namespace prog {
         *image=v;//atualiza a imagem 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
