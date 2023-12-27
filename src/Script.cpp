@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include "Script.hpp"
-#include "PNG.hpp"
-#include "XPM2.hpp"
+#include "../include/Script.hpp"
+#include "../include/PNG.hpp"
+#include "../include/XPM2.hpp"
 #include <algorithm>
 
 using namespace std;

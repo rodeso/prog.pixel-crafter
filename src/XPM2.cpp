@@ -1,4 +1,4 @@
-#include "XPM2.hpp"
+#include "../include/XPM2.hpp"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
