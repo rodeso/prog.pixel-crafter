@@ -11,8 +11,8 @@ Pixel-Crafter
 - **Course:** [Prog](https://sigarra.up.pt/feup/pt/UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=501671) (Programming)
 - **Project grade:** 19.4
 - - **April 2023**
-- **Group members:**
-     - Gonçalo
-     - Rafael Campeão 
-     - Rodrigo Dias Ferreira Loureiro de Sousa (up202205751@up.pt)
+  - **Group members:**
+       - Gonçalo Francisco Araújo Moreira (202210143@up.pt)
+       - Rafael Ângelo dos Reis Campeão (202207553@up.pt)
+       - Rodrigo Dias Ferreira Loureiro de Sousa (up202205751@up.pt)
   
